@@ -28,7 +28,7 @@
       min-height: 100vh;
     }
 
-    /* ── Header ── */
+    /* ââ Header ââ */
     .site-header {
       background: #fff;
       border-bottom: 1px solid #e6e9ef;
@@ -79,7 +79,7 @@
       opacity: 0.55;
     }
 
-    /* ── Overall progress ── */
+    /* ââ Overall progress ââ */
     .overall-card {
       background: #fff;
       border: 1px solid #e6e9ef;
@@ -139,12 +139,12 @@
       color: #9699a6;
     }
 
-    /* ── Main content ── */
+    /* ââ Main content ââ */
     .content {
       padding: 24px 40px 48px;
     }
 
-    /* ── Phase / Group cards ── */
+    /* ââ Phase / Group cards ââ */
     .group-card {
       background: #fff;
       border: 1px solid #e6e9ef;
@@ -210,12 +210,12 @@
     .group-card.collapsed .chevron { transform: rotate(-90deg); }
     .group-card.collapsed .group-body { display: none; }
 
-    /* ── Items table ── */
+    /* ââ Items table ââ */
     .group-body { padding: 0; }
 
     .col-headers {
       display: grid;
-      grid-template-columns: 1fr 140px 130px 160px;
+      grid-template-columns: 1fr 140px 130px 160px 180px;
       padding: 8px 20px;
       background: #f9fafb;
       border-bottom: 1px solid #e6e9ef;
@@ -228,7 +228,7 @@
 
     .item-row {
       display: grid;
-      grid-template-columns: 1fr 140px 130px 160px;
+      grid-template-columns: 1fr 140px 130px 160px 180px;
       padding: 12px 20px;
       border-bottom: 1px solid #f0f2f5;
       align-items: start;
@@ -306,7 +306,7 @@
       flex-shrink: 0;
     }
 
-    /* ── Subitems ── */
+    /* ââ Subitems ââ */
     .subitems-container {
       display: none;
       background: #f9fafb;
@@ -316,7 +316,7 @@
 
     .subitem-row {
       display: grid;
-      grid-template-columns: 1fr 140px 130px 160px;
+      grid-template-columns: 1fr 140px 130px 160px 180px;
       padding: 9px 20px 9px 52px;
       border-bottom: 1px solid #f0f2f5;
       align-items: center;
@@ -325,7 +325,20 @@
     .subitem-row:last-child { border-bottom: none; }
     .subitem-name { color: #676879; font-weight: 300; }
 
-    /* ── Footer ── */
+    .link-cell {
+      font-size: 13px;
+      color: #323338;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .link-cell a {
+      color: #0073ea;
+      text-decoration: none;
+    }
+    .link-cell a:hover { text-decoration: underline; }
+
+    /* ââ Footer ââ */
     .footer {
       text-align: center;
       padding: 20px 16px 28px;
@@ -338,7 +351,7 @@
     }
     .footer a { color: #9699a6; text-decoration: none; }
 
-    /* ── Loading / Error ── */
+    /* ââ Loading / Error ââ */
     .state-box {
       text-align: center;
       padding: 80px 40px;
@@ -356,7 +369,7 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     .error-msg { color: #e44258; }
 
-    /* ── Refresh strip ── */
+    /* ââ Refresh strip ââ */
     .refresh-strip {
       display: flex;
       align-items: center;
@@ -406,28 +419,28 @@
 </div>
 
 <script>
-// ─────────────────────────────────────────────
+// âââââââââââââââââââââââââââââââââââââââââââââ
 //  CONFIG
-// ─────────────────────────────────────────────
+// âââââââââââââââââââââââââââââââââââââââââââââ
 const API_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjY4MjQzNTYxMSwiYWFpIjoxMSwidWlkIjoxMDM3MTIzODgsImlhZCI6IjIwMjYtMDctMTRUMTM6MzA6MDQuMzM1WiIsInBlciI6Im1lOndyaXRlIiwiYWN0aWQiOjM1MTQwMTY2LCJyZ24iOiJldWMxIn0.hSwzdh7yuvIHHdRNMofZGGNwf1UvdKEqaGP4G2JxyMY';
 const BOARD_ID  = '5098190538';
 const REFRESH_MS = 5 * 60 * 1000;
 const DONE_LABELS = ['done', 'complete', 'completed', 'finished', 'closed', 'delivered'];
 
-// ─────────────────────────────────────────────
+// âââââââââââââââââââââââââââââââââââââââââââââ
 //  PENGUIN SVG (adelie, sliding)
-// ─────────────────────────────────────────────
+// âââââââââââââââââââââââââââââââââââââââââââââ
 // Penguin image will be embedded here once the file is attached
-const PENGUIN_IMG = ''; // placeholder — set to base64 data URI when image is provided
+const PENGUIN_IMG = ''; // placeholder â set to base64 data URI when image is provided
 
-// ─────────────────────────────────────────────
+// âââââââââââââââââââââââââââââââââââââââââââââ
 //  RADAR HEALTHCARE LOGO
-// ─────────────────────────────────────────────
+// âââââââââââââââââââââââââââââââââââââââââââââ
 const RADAR_LOGO_URL = 'https://radarhealthcare.com/wp-content/themes/radar-healthcare/img/radar-logo-new-sm.svg';
 
-// ─────────────────────────────────────────────
+// âââââââââââââââââââââââââââââââââââââââââââââ
 //  API
-// ─────────────────────────────────────────────
+// âââââââââââââââââââââââââââââââââââââââââââââ
 const GQL_QUERY = `
 query GetBoard($ids: [ID!]!) {
   boards(ids: $ids) {
@@ -471,9 +484,9 @@ async function fetchBoard() {
   return json.data.boards[0];
 }
 
-// ─────────────────────────────────────────────
+// âââââââââââââââââââââââââââââââââââââââââââââ
 //  HELPERS
-// ─────────────────────────────────────────────
+// âââââââââââââââââââââââââââââââââââââââââââââ
 function parseSettings(col) {
   try { return JSON.parse(col.settings_str); } catch { return {}; }
 }
@@ -481,7 +494,7 @@ function parseSettings(col) {
 function buildStatusMeta(columns) {
   const map = {};
   columns.forEach(col => {
-    if (col.type !== 'color') return;
+    if (col.type !== 'color' && col.type !== 'status') return;
     const s = parseSettings(col);
     map[col.id] = { labels: s.labels || {}, colors: s.labels_colors || {} };
   });
@@ -518,9 +531,9 @@ function hslFromStr(str) {
   return `hsl(${Math.abs(h)%360},45%,50%)`;
 }
 
-// ─────────────────────────────────────────────
+// âââââââââââââââââââââââââââââââââââââââââââââ
 //  RENDER
-// ─────────────────────────────────────────────
+// âââââââââââââââââââââââââââââââââââââââââââââ
 function render(board) {
   const statusMeta = buildStatusMeta(board.columns);
   const groupOrder = board.groups.map(g => g.id);
@@ -536,7 +549,7 @@ function render(board) {
   let totalItems = 0, doneItems = 0;
   board.items_page.items.forEach(item => {
     totalItems++;
-    const sv = item.column_values.find(cv => cv.column.type === 'color');
+    const sv = item.column_values.find(cv => cv.column.type === 'color' || cv.column.type === 'status');
     if (sv && isDone(sv.text)) doneItems++;
   });
   const overallPct = totalItems ? Math.round((doneItems / totalItems) * 100) : 0;
@@ -574,7 +587,7 @@ function render(board) {
 
     <div class="refresh-strip">
       <span id="last-updated">Updated ${now.toLocaleTimeString()}</span>
-      <button class="refresh-btn" onclick="loadAndRender()">↻ Refresh</button>
+      <button class="refresh-btn" onclick="loadAndRender()">â» Refresh</button>
     </div>
 
     <div class="content">
@@ -587,7 +600,7 @@ function render(board) {
 
     const color = group.color || '#c5c7d0';
     const gDone = items.filter(item => {
-      const sv = item.column_values.find(cv => cv.column.type === 'color');
+      const sv = item.column_values.find(cv => cv.column.type === 'color' || cv.column.type === 'status');
       return sv && isDone(sv.text);
     }).length;
     const gPct = Math.round((gDone / items.length) * 100);
@@ -604,30 +617,34 @@ function render(board) {
               </div>
               <span class="group-pct">${gPct}%</span>
             </div>
-            <span class="chevron">▾</span>
+            <span class="chevron">â¾</span>
           </div>
         </div>
         <div class="group-body">
           <div class="col-headers">
-            <div>Task</div><div>Status</div><div>Due Date</div><div>Assignee</div>
+            <div>Task</div><div>Status</div><div>Due Date</div><div>Assignee</div><div>Link</div>
           </div>`;
 
     items.forEach(item => {
-      const statusCV = item.column_values.find(cv => cv.column.type === 'color');
+      const statusCV = item.column_values.find(cv => cv.column.type === 'color' || cv.column.type === 'status');
       const dateCV   = item.column_values.find(cv => cv.column.type === 'date');
       const personCV = item.column_values.find(cv => cv.column.type === 'multiple-person' || cv.column.type === 'people' || cv.column.type === 'person');
+          const slv = sub.column_values.find(cv => cv.column.type === 'link');
+      const linkCV   = item.column_values.find(cv => cv.column.type === 'link');
 
       const statusText  = statusCV?.text || '';
       const statusColor = statusCV ? getStatusColor(statusMeta, statusCV.column.id, statusCV.value) : '#c5c7d0';
+      let linkText = '', linkUrl = '';
+      if (linkCV?.value) { try { const lv = JSON.parse(linkCV.value); linkText = lv.text || ''; linkUrl = lv.url || ''; } catch {} }
 
       const dateInfo = dateCV ? formatDate(dateCV.text) : null;
-      let dateClass = 'empty', dateStr = '—';
+      let dateClass = 'empty', dateStr = 'â';
       if (dateInfo) {
         dateStr = dateInfo.str;
         dateClass = dateInfo.diff < 0 ? 'overdue' : dateInfo.diff < 3 ? 'soon' : '';
       }
 
-      let assigneeHtml = '<span style="color:#c5c7d0">—</span>';
+      let assigneeHtml = '<span style="color:#c5c7d0">â</span>';
       if (personCV?.text) {
         const names = personCV.text.split(',').map(n => n.trim()).filter(Boolean);
         if (names.length) {
@@ -644,7 +661,7 @@ function render(board) {
         <div class="item-row">
           <div class="item-name-wrap">
             ${hasSubs
-              ? `<button class="expand-btn" id="btn-${item.id}" onclick="toggleSubs('${item.id}')">▶</button>`
+              ? `<button class="expand-btn" id="btn-${item.id}" onclick="toggleSubs('${item.id}')">â¶</button>`
               : `<span class="no-subitems-spacer"></span>`
             }
             <span class="item-name">${esc(item.name)}</span>
@@ -652,28 +669,31 @@ function render(board) {
           <div>
             ${statusText
               ? `<span class="status-badge" style="background:${statusColor}">${esc(statusText)}</span>`
-              : '<span style="color:#c5c7d0">—</span>'
+              : '<span style="color:#c5c7d0">â</span>'
             }
           </div>
           <div class="due-date ${dateClass}">${dateStr}</div>
           <div class="assignee">${assigneeHtml}</div>
+          <div class="link-cell">${linkText && linkUrl ? `<a href="${esc(linkUrl)}" target="_blank" rel="noopener">${esc(linkText)}</a>` : linkText ? esc(linkText) : '<span style="color:#c5c7d0">—</span>'}</div>
         </div>`;
 
       if (hasSubs) {
         html += `<div class="subitems-container" id="subs-${item.id}">`;
         item.subitems.forEach(sub => {
-          const ssv = sub.column_values.find(cv => cv.column.type === 'color');
+          const ssv = sub.column_values.find(cv => cv.column.type === 'color' || cv.column.type === 'status');
           const sdv = sub.column_values.find(cv => cv.column.type === 'date');
           const spv = sub.column_values.find(cv => cv.column.type === 'multiple-person' || cv.column.type === 'people' || cv.column.type === 'person');
 
           const sStatusText  = ssv?.text || '';
           const sStatusColor = ssv ? getStatusColor(statusMeta, ssv.column.id, ssv.value) : '#c5c7d0';
+          let sLinkText = '', sLinkUrl = '';
+          if (slv?.value) { try { const lv = JSON.parse(slv.value); sLinkText = lv.text || ''; sLinkUrl = lv.url || ''; } catch {} }
 
           const sdi = sdv ? formatDate(sdv.text) : null;
-          let sDC = 'empty', sDS = '—';
+          let sDC = 'empty', sDS = 'â';
           if (sdi) { sDS = sdi.str; sDC = sdi.diff < 0 ? 'overdue' : sdi.diff < 3 ? 'soon' : ''; }
 
-          let sAH = '<span style="color:#c5c7d0">—</span>';
+          let sAH = '<span style="color:#c5c7d0">â</span>';
           if (spv?.text) {
             const snames = spv.text.split(',').map(n => n.trim()).filter(Boolean);
             if (snames.length) {
@@ -685,10 +705,11 @@ function render(board) {
 
           html += `
             <div class="subitem-row">
-              <div class="subitem-name">↳ ${esc(sub.name)}</div>
-              <div>${sStatusText ? `<span class="status-badge" style="background:${sStatusColor}">${esc(sStatusText)}</span>` : '<span style="color:#c5c7d0">—</span>'}</div>
+              <div class="subitem-name">â³ ${esc(sub.name)}</div>
+              <div>${sStatusText ? `<span class="status-badge" style="background:${sStatusColor}">${esc(sStatusText)}</span>` : '<span style="color:#c5c7d0">â</span>'}</div>
               <div class="due-date ${sDC}">${sDS}</div>
               <div class="assignee">${sAH}</div>
+              <div class="link-cell">${sLinkText && sLinkUrl ? `<a href="${esc(sLinkUrl)}" target="_blank" rel="noopener">${esc(sLinkText)}</a>` : sLinkText ? esc(sLinkText) : '<span style="color:#c5c7d0">—</span>'}</div>
             </div>`;
         });
         html += `</div>`;
@@ -700,7 +721,7 @@ function render(board) {
 
   html += `</div>
     <div class="footer">
-      <span>Live data from monday.com · refreshes every 5 min</span>
+      <span>Live data from monday.com Â· refreshes every 5 min</span>
     </div>`;
 
   document.getElementById('app').innerHTML = html;
