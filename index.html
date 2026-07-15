@@ -629,7 +629,6 @@ function render(board) {
       const statusCV = item.column_values.find(cv => cv.column.type === 'color' || cv.column.type === 'status');
       const dateCV   = item.column_values.find(cv => cv.column.type === 'date');
       const personCV = item.column_values.find(cv => cv.column.type === 'multiple-person' || cv.column.type === 'people' || cv.column.type === 'person');
-          const slv = sub.column_values.find(cv => cv.column.type === 'link');
       const linkCV   = item.column_values.find(cv => cv.column.type === 'link');
 
       const statusText  = statusCV?.text || '';
@@ -683,6 +682,7 @@ function render(board) {
           const ssv = sub.column_values.find(cv => cv.column.type === 'color' || cv.column.type === 'status');
           const sdv = sub.column_values.find(cv => cv.column.type === 'date');
           const spv = sub.column_values.find(cv => cv.column.type === 'multiple-person' || cv.column.type === 'people' || cv.column.type === 'person');
+          const slv = sub.column_values.find(cv => cv.column.type === 'link');
 
           const sStatusText  = ssv?.text || '';
           const sStatusColor = ssv ? getStatusColor(statusMeta, ssv.column.id, ssv.value) : '#c5c7d0';
