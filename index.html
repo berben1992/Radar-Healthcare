@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Project Progress</title>
+  <title>ISO14001 & Carbon Reduction Plan (CRP)</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PGNpcmNsZSBjeD0iMTYiIGN5PSIxMCIgcj0iOCIgZmlsbD0iIzFhMWEyZSIvPjxlbGxpcHNlIGN4PSIxNiIgY3k9IjIyIiByeD0iOSIgcnk9IjExIiBmaWxsPSIjMWExYTJlIi8+PGVsbGlwc2UgY3g9IjE2IiBjeT0iMjQiIHJ4PSI1IiByeT0iNyIgZmlsbD0id2hpdGUiLz48Y2lyY2xlIGN4PSIxMyIgY3k9IjkiIHI9IjEuNSIgZmlsbD0id2hpdGUiLz48Y2lyY2xlIGN4PSIxMyIgY3k9IjkiIHI9Ii43IiBmaWxsPSIjMWExYTJlIi8+PGNpcmNsZSBjeD0iMTkiIGN5PSI5IiByPSIxLjUiIGZpbGw9IndoaXRlIi8+PGNpcmNsZSBjeD0iMTkiIGN5PSI5IiByPSIuNyIgZmlsbD0iIzFhMWEyZSIvPjxwb2x5Z29uIHBvaW50cz0iMTQsMTIgMTgsMTIgMTYsMTUiIGZpbGw9IiNmZjhjMDAiLz48ZWxsaXBzZSBjeD0iMTEiIGN5PSIzMSIgcng9IjMiIHJ5PSIxIiBmaWxsPSIjZmY4YzAwIi8+PGVsbGlwc2UgY3g9IjIxIiBjeT0iMzEiIHJ4PSIzIiByeT0iMSIgZmlsbD0iI2ZmOGMwMCIvPjwvc3ZnPg==">
   <style>
     @font-face {
       font-family: 'Cardone';
@@ -338,6 +339,9 @@
     }
     .link-cell a:hover { text-decoration: underline; }
 
+    .gantt-section { margin: 0 20px 20px; border: 1px solid #e6e9ef; border-radius: 8px; overflow: hidden; background: #fff; }
+    .gantt-header { padding: 10px 16px 8px; font-size: 13px; font-weight: 600; color: #323338; border-bottom: 1px solid #e6e9ef; background: #f5f6f8; letter-spacing: .3px; }
+
     /* ââ Footer ââ */
     .footer {
       text-align: center;
@@ -512,6 +516,31 @@ function isDone(text) {
   return DONE_LABELS.includes((text || '').toLowerCase().trim());
 }
 
+function buildGantt(items, gc) {
+  var wd=items.filter(function(i){return i.due;});
+  if(!wd.length)return'';
+  var now=new Date();now.setHours(0,0,0,0);
+  var ms=wd.map(function(i){return+new Date(i.due);});
+  var t0=new Date(Math.min.apply(null,ms));t0.setDate(1);t0.setMonth(t0.getMonth()-1);
+  var t1=new Date(Math.max.apply(null,ms));t1.setDate(1);t1.setMonth(t1.getMonth()+2);
+  var W=700,L=160,B=W-L,rH=26,hH=36,H=hH+wd.length*rH+4,sp=t1-t0;
+  function px(d){return L+(+new Date(d)-t0)/sp*B;}
+  var tx=px(now),gr='',mo='',ro='',d=new Date(t0);d.setDate(1);
+  while(d<=t1){var x=px(d);if(x>=L){gr+='<line x1="'+x.toFixed(0)+'" y1="'+hH+'" x2="'+x.toFixed(0)+'" y2="'+H+'" stroke="#e6e9ef" stroke-width="1"/>';mo+='<text x="'+x.toFixed(0)+'" y="20" font-size="10" fill="#676879" text-anchor="middle" font-family="sans-serif">'+d.toLocaleString('en',{month:'short'})+" '"+String(d.getFullYear()).slice(2)+'</text>';}d.setMonth(d.getMonth()+1);}
+  wd.forEach(function(it,i){
+    var y=hH+i*rH,due=new Date(it.due),x2=px(due),x1=Math.max(L,x2-B*0.18);
+    var ov=due<now,dn=/done|complet|closed|finish/i.test(it.status||'');
+    if(i%2===0)ro+='<rect x="0" y="'+y+'" width="'+W+'" height="'+rH+'" fill="#f9fafa"/>';
+    var lbl=(it.name||'').slice(0,22)+(it.name&&it.name.length>22?'…':'');
+    ro+='<text x="'+(L-6)+'" y="'+(y+rH/2+4)+'" font-size="11" fill="#323338" text-anchor="end" font-family="sans-serif">'+esc(lbl)+'</text>';
+    var bc=ov&&!dn?'#e44258':(it.color||gc);
+    ro+='<rect x="'+x1.toFixed(0)+'" y="'+(y+5)+'" width="'+Math.max(x2-x1,4).toFixed(0)+'" height="'+(rH-10)+'" rx="3" fill="'+bc+'" opacity="'+(dn?'0.4':'0.85')+'"/>';
+    ro+=dn?'<text x="'+(x2+10).toFixed(0)+'" y="'+(y+rH/2+4)+'" font-size="10" fill="'+bc+'" font-family="sans-serif">✓</text>':'<circle cx="'+x2.toFixed(0)+'" cy="'+(y+rH/2)+'" r="4" fill="'+bc+'"/>';
+  });
+  var tl='<line x1="'+tx.toFixed(0)+'" y1="4" x2="'+tx.toFixed(0)+'" y2="'+H+'" stroke="#e44258" stroke-width="1.5" stroke-dasharray="3,3"/>'+(tx>=L&&tx<=W?'<text x="'+tx.toFixed(0)+'" y="32" font-size="9" fill="#e44258" text-anchor="middle" font-family="sans-serif">Today</text>':'');
+  return'<div class="gantt-section"><div class="gantt-header">📅 Timeline</div><svg viewBox="0 0 '+W+' '+H+'" width="100%" style="display:block">'+gr+mo+tl+ro+'</svg></div>';
+}
+
 function formatDate(text) {
   if (!text) return null;
   const d = new Date(text);
@@ -625,6 +654,7 @@ function render(board) {
             <div>Task</div><div>Status</div><div>Due Date</div><div>Assignee</div><div>Link</div>
           </div>`;
 
+    const ganttData = [];
     items.forEach(item => {
       const statusCV = item.column_values.find(cv => cv.column.type === 'color' || cv.column.type === 'status');
       const dateCV   = item.column_values.find(cv => cv.column.type === 'date');
@@ -637,6 +667,7 @@ function render(board) {
       if (linkCV?.value) { try { const lv = JSON.parse(linkCV.value); linkText = lv.text || ''; linkUrl = lv.url || ''; } catch {} }
 
       const dateInfo = dateCV ? formatDate(dateCV.text) : null;
+      ganttData.push({name: item.name, due: dateCV ? dateCV.text : null, color: statusColor, status: statusText});
       let dateClass = 'empty', dateStr = 'â';
       if (dateInfo) {
         dateStr = dateInfo.str;
@@ -715,6 +746,7 @@ function render(board) {
         html += `</div>`;
       }
     });
+    if (ganttData.some(function(i){return i.due;})) html += buildGantt(ganttData, color);
 
     html += `</div></div>`;
   });
