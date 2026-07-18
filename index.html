@@ -29,7 +29,7 @@
       min-height: 100vh;
     }
 
-    /* -- Header -- */
+    /* -- Header -- */
     .site-header {
       background: #fff;
       border-bottom: 1px solid #A1A3AC;
@@ -80,7 +80,7 @@
       opacity: 0.55;
     }
 
-    /* -- Overall progress -- */
+    /* -- Overall progress -- */
     .overall-card {
       background: #fff;
       border: 1px solid #A1A3AC;
@@ -140,12 +140,12 @@
       color: #7A7469;
     }
 
-    /* -- Main content -- */
+    /* -- Main content -- */
     .content {
       padding: 24px 40px 48px;
     }
 
-    /* -- Phase / Group cards -- */
+    /* -- Phase / Group cards -- */
     .group-card {
       background: #fff;
       border: 1px solid #A1A3AC;
@@ -211,7 +211,7 @@
     .group-card.collapsed .chevron { transform: rotate(-90deg); }
     .group-card.collapsed .group-body { display: none; }
 
-    /* -- Items table -- */
+    /* -- Items table -- */
     .group-body { padding: 0; }
 
     .col-headers {
@@ -307,7 +307,7 @@
       flex-shrink: 0;
     }
 
-    /* -- Subitems -- */
+    /* -- Subitems -- */
     .subitems-container {
       display: none;
       background: #EFEFEF;
@@ -339,10 +339,10 @@
     }
     .link-cell a:hover { text-decoration: underline; }
 
-    .gantt-section { margin: 0 20px 20px; border: 1px solid #A1A3AC; border-radius: 8px; overflow: hidden; background: #fff; }
+    .gantt-section { margin: 0 20px 20px; overflow-x: auto; border: 1px solid #A1A3AC; border-radius: 8px; overflow: hidden; background: #fff; }
     .gantt-header { padding: 10px 16px 8px; font-size: 13px; font-weight: 600; color: #000000; border-bottom: 1px solid #A1A3AC; background: #EFEFEF; letter-spacing: .3px; }
 
-    /* -- Footer -- */
+    /* -- Footer -- */
     .footer {
       text-align: center;
       padding: 20px 16px 28px;
@@ -355,7 +355,7 @@
     }
     .footer a { color: #7A7469; text-decoration: none; }
 
-    /* -- Loading / Error -- */
+    /* -- Loading / Error -- */
     .state-box {
       text-align: center;
       padding: 80px 40px;
@@ -373,7 +373,7 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     .error-msg { color: #C64440; }
 
-    /* -- Refresh strip -- */
+    /* -- Refresh strip -- */
     .refresh-strip {
       display: flex;
       align-items: center;
@@ -423,28 +423,28 @@
 </div>
 
 <script>
-// ---------------------------------------------
+// ---------------------------------------------
 //  CONFIG
-// ---------------------------------------------
+// ---------------------------------------------
 const API_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjY4MjQzNTYxMSwiYWFpIjoxMSwidWlkIjoxMDM3MTIzODgsImlhZCI6IjIwMjYtMDctMTRUMTM6MzA6MDQuMzM1WiIsInBlciI6Im1lOndyaXRlIiwiYWN0aWQiOjM1MTQwMTY2LCJyZ24iOiJldWMxIn0.hSwzdh7yuvIHHdRNMofZGGNwf1UvdKEqaGP4G2JxyMY';
 const BOARD_ID  = '5098190538';
 const REFRESH_MS = 5 * 60 * 1000;
 const DONE_LABELS = ['done', 'complete', 'completed', 'finished', 'closed', 'delivered'];
 
-// ---------------------------------------------
+// ---------------------------------------------
 //  PENGUIN SVG (adelie, sliding)
-// ---------------------------------------------
+// ---------------------------------------------
 // Penguin image will be embedded here once the file is attached
-const PENGUIN_IMG = ''; // placeholder - set to base64 data URI when image is provided
+const PENGUIN_IMG = ''; // placeholder - set to base64 data URI when image is provided
 
-// ---------------------------------------------
+// ---------------------------------------------
 //  RADAR HEALTHCARE LOGO
-// ---------------------------------------------
+// ---------------------------------------------
 const RADAR_LOGO_URL = 'https://radarhealthcare.com/wp-content/themes/radar-healthcare/img/radar-logo-new-sm.svg';
 
-// ---------------------------------------------
+// ---------------------------------------------
 //  API
-// ---------------------------------------------
+// ---------------------------------------------
 const GQL_QUERY = `
 query GetBoard($ids: [ID!]!) {
   boards(ids: $ids) {
@@ -488,9 +488,9 @@ async function fetchBoard() {
   return json.data.boards[0];
 }
 
-// ---------------------------------------------
+// ---------------------------------------------
 //  HELPERS
-// ---------------------------------------------
+// ---------------------------------------------
 function parseSettings(col) {
   try { return JSON.parse(col.settings_str); } catch { return {}; }
 }
@@ -523,22 +523,22 @@ function buildGantt(items, gc) {
   var ms=wd.map(function(i){return+new Date(i.due);});
   var t0=new Date(now.getFullYear(),now.getMonth()-1,1);
   var t1=new Date(t0.getFullYear(),t0.getMonth()+6,1);
-  var W=700,L=160,B=W-L,rH=26,hH=36,H=hH+wd.length*rH+4,sp=t1-t0;
+  var W=1050,L=160,B=W-L,rH=26,hH=36,H=hH+wd.length*rH+4,sp=t1-t0;
   function px(d){return L+(+new Date(d)-t0)/sp*B;}
   var tx=px(now),gr='',mo='',ro='',d=new Date(t0);d.setDate(1);
-  while(d<=t1){var x=px(d);if(x>=L){gr+='<line x1="'+x.toFixed(0)+'" y1="'+hH+'" x2="'+x.toFixed(0)+'" y2="'+H+'" stroke="#A1A3AC" stroke-width="1"/>';mo+='<text x="'+x.toFixed(0)+'" y="20" font-size="10" fill="#7A7469" text-anchor="middle" font-family="sans-serif">'+d.toLocaleString('en',{month:'short'})+" '"+String(d.getFullYear()).slice(2)+'</text>';}d.setMonth(d.getMonth()+1);}
+  while(d<=t1){var x=px(d);if(x>=L){gr+='<line x1="'+x.toFixed(0)+'" y1="'+hH+'" x2="'+x.toFixed(0)+'" y2="'+H+'" stroke="#A1A3AC" stroke-width="1"/>';mo+='<text x="'+x.toFixed(0)+'" y="20" font-size="12" fill="#7A7469" text-anchor="middle" font-family="'Cardone', sans-serif">'+d.toLocaleString('en',{month:'short'})+" '"+String(d.getFullYear()).slice(2)+'</text>';}d.setMonth(d.getMonth()+1);}
   wd.forEach(function(it,i){
     var y=hH+i*rH,due=new Date(it.due),x2=px(due),x1=Math.max(L,x2-B*0.18);
     var ov=due<now,dn=/done|complet|closed|finish/i.test(it.status||'');
     if(i%2===0)ro+='<rect x="0" y="'+y+'" width="'+W+'" height="'+rH+'" fill="#EFEFEF"/>';
     var lbl=(it.name||'').slice(0,22)+(it.name&&it.name.length>22?'…':'');
-    ro+='<text x="'+(L-6)+'" y="'+(y+rH/2+4)+'" font-size="11" fill="#000000" text-anchor="end" font-family="sans-serif">'+esc(lbl)+'</text>';
-    var bc=ov&&!dn?'#C64440':(it.color||gc);
+    ro+='<text x="'+(L-6)+'" y="'+(y+rH/2+4)+'" font-size="12" fill="#000000" text-anchor="end" font-family="'Cardone', sans-serif">'+esc(lbl)+'</text>';
+    var bc=dn?'#2D8944':'#82957B';
     ro+='<rect x="'+x1.toFixed(0)+'" y="'+(y+5)+'" width="'+Math.max(x2-x1,4).toFixed(0)+'" height="'+(rH-10)+'" rx="3" fill="'+bc+'" opacity="'+(dn?'0.4':'0.85')+'"/>';
-    ro+=dn?'<text x="'+(x2+10).toFixed(0)+'" y="'+(y+rH/2+4)+'" font-size="10" fill="'+bc+'" font-family="sans-serif">✓</text>':'<circle cx="'+x2.toFixed(0)+'" cy="'+(y+rH/2)+'" r="4" fill="'+bc+'"/>';
+    ro+=dn?'<text x="'+(x2+10).toFixed(0)+'" y="'+(y+rH/2+4)+'" font-size="10" fill="'+bc+'" font-family="'Cardone', sans-serif">✓</text>':'<circle cx="'+x2.toFixed(0)+'" cy="'+(y+rH/2)+'" r="4" fill="'+bc+'"/>';
   });
-  var tl='<line x1="'+tx.toFixed(0)+'" y1="4" x2="'+tx.toFixed(0)+'" y2="'+H+'" stroke="#C64440" stroke-width="1.5" stroke-dasharray="3,3"/>'+(tx>=L&&tx<=W?'<text x="'+tx.toFixed(0)+'" y="32" font-size="9" fill="#C64440" text-anchor="middle" font-family="sans-serif">Today</text>':'');
-  return'<div class="gantt-section"><div class="gantt-header">📅 Timeline</div><svg viewBox="0 0 '+W+' '+H+'" width="100%" style="display:block">'+gr+mo+tl+ro+'</svg></div>';
+  var tl='<line x1="'+tx.toFixed(0)+'" y1="4" x2="'+tx.toFixed(0)+'" y2="'+H+'" stroke="#C64440" stroke-width="1.5" stroke-dasharray="3,3"/>'+(tx>=L&&tx<=W?'<text x="'+tx.toFixed(0)+'" y="32" font-size="9" fill="#C64440" text-anchor="middle" font-family="'Cardone', sans-serif">Today</text>':'');
+  return'<div class="gantt-section"><div class="gantt-header">📅 Timeline</div><svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" style="display:block">'+gr+mo+tl+ro+'</svg></div>';
 }
 
 function formatDate(text) {
@@ -560,9 +560,9 @@ function hslFromStr(str) {
   return `hsl(${Math.abs(h)%360},45%,50%)`;
 }
 
-// ---------------------------------------------
+// ---------------------------------------------
 //  RENDER
-// ---------------------------------------------
+// ---------------------------------------------
 function render(board) {
   const statusMeta = buildStatusMeta(board.columns);
   const groupOrder = board.groups.map(g => g.id);
@@ -585,7 +585,8 @@ function render(board) {
   const now = new Date();
 
   let html = `
-    <div class="site-header">
+    <div class="site-banner"><img src="/Radar-Healthcare/images/banner.jpg" alt="Adelie — Navigating Complexity. Empowering Sustainable Futures." style="width:100%;display:block;max-height:200px;object-fit:cover;object-position:center 30%;"></div>
+  <div class="site-header">
       <div class="logo-wrap">
         <span class="adelie-logo">adelie</span>
         <div class="divider"></div>
@@ -616,7 +617,7 @@ function render(board) {
 
     <div class="refresh-strip">
       <span id="last-updated">Updated ${now.toLocaleTimeString()}</span>
-      <button class="refresh-btn" onclick="loadAndRender()">-» Refresh</button>
+      <button class="refresh-btn" onclick="loadAndRender()">» Refresh</button>
     </div>
 
     <div class="content">
@@ -646,7 +647,7 @@ function render(board) {
               </div>
               <span class="group-pct">${gPct}%</span>
             </div>
-            <span class="chevron">-¾</span>
+            <span class="chevron">-¾</span>
           </div>
         </div>
         <div class="group-body">
@@ -668,13 +669,13 @@ function render(board) {
 
       const dateInfo = dateCV ? formatDate(dateCV.text) : null;
       ganttData.push({name: item.name, due: dateCV ? dateCV.text : null, color: statusColor, status: statusText});
-      let dateClass = 'empty', dateStr = '-';
+      let dateClass = 'empty', dateStr = '-';
       if (dateInfo) {
         dateStr = dateInfo.str;
         dateClass = dateInfo.diff < 0 ? 'overdue' : dateInfo.diff < 3 ? 'soon' : '';
       }
 
-      let assigneeHtml = '<span style="color:#A1A3AC">-</span>';
+      let assigneeHtml = '<span style="color:#A1A3AC">-</span>';
       if (personCV?.text) {
         const names = personCV.text.split(',').map(n => n.trim()).filter(Boolean);
         if (names.length) {
@@ -691,7 +692,7 @@ function render(board) {
         <div class="item-row">
           <div class="item-name-wrap">
             ${hasSubs
-              ? `<button class="expand-btn" id="btn-${item.id}" onclick="toggleSubs('${item.id}')">-¶</button>`
+              ? `<button class="expand-btn" id="btn-${item.id}" onclick="toggleSubs('${item.id}')">▾</button>`
               : `<span class="no-subitems-spacer"></span>`
             }
             <span class="item-name">${esc(item.name)}</span>
@@ -699,7 +700,7 @@ function render(board) {
           <div>
             ${statusText
               ? `<span class="status-badge" style="background:${statusColor}">${esc(statusText)}</span>`
-              : '<span style="color:#A1A3AC">-</span>'
+              : '<span style="color:#A1A3AC">-</span>'
             }
           </div>
           <div class="due-date ${dateClass}">${dateStr}</div>
@@ -721,10 +722,10 @@ function render(board) {
           if (slv?.value) { try { const lv = JSON.parse(slv.value); sLinkText = lv.text || ''; sLinkUrl = lv.url || ''; } catch {} }
 
           const sdi = sdv ? formatDate(sdv.text) : null;
-          let sDC = 'empty', sDS = '-';
+          let sDC = 'empty', sDS = '-';
           if (sdi) { sDS = sdi.str; sDC = sdi.diff < 0 ? 'overdue' : sdi.diff < 3 ? 'soon' : ''; }
 
-          let sAH = '<span style="color:#A1A3AC">-</span>';
+          let sAH = '<span style="color:#A1A3AC">-</span>';
           if (spv?.text) {
             const snames = spv.text.split(',').map(n => n.trim()).filter(Boolean);
             if (snames.length) {
@@ -736,8 +737,8 @@ function render(board) {
 
           html += `
             <div class="subitem-row">
-              <div class="subitem-name">-³ ${esc(sub.name)}</div>
-              <div>${sStatusText ? `<span class="status-badge" style="background:${sStatusColor}">${esc(sStatusText)}</span>` : '<span style="color:#A1A3AC">-</span>'}</div>
+              <div class="subitem-name"> ${esc(sub.name)}</div>
+              <div>${sStatusText ? `<span class="status-badge" style="background:${sStatusColor}">${esc(sStatusText)}</span>` : '<span style="color:#A1A3AC">-</span>'}</div>
               <div class="due-date ${sDC}">${sDS}</div>
               <div class="assignee">${sAH}</div>
               <div class="link-cell">${sLinkText && sLinkUrl ? `<a href="${esc(sLinkUrl)}" target="_blank" rel="noopener">${esc(sLinkText)}</a>` : sLinkText ? esc(sLinkText) : '<span style="color:#A1A3AC">-</span>'}</div>
@@ -753,7 +754,7 @@ function render(board) {
 
   html += `</div>
     <div class="footer">
-      <span>Live data from monday.com Â· refreshes every 5 min</span>
+      <span>Live data from monday.com · refreshes every 5 min</span>
     </div>`;
 
   document.getElementById('app').innerHTML = html;
