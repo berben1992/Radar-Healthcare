@@ -526,18 +526,18 @@ function buildGantt(items, gc) {
   var W=1050,L=160,B=W-L,rH=26,hH=36,H=hH+wd.length*rH+4,sp=t1-t0;
   function px(d){return L+(+new Date(d)-t0)/sp*B;}
   var tx=px(now),gr='',mo='',ro='',d=new Date(t0);d.setDate(1);
-  while(d<=t1){var x=px(d);if(x>=L){gr+='<line x1="'+x.toFixed(0)+'" y1="'+hH+'" x2="'+x.toFixed(0)+'" y2="'+H+'" stroke="#A1A3AC" stroke-width="1"/>';mo+='<text x="'+x.toFixed(0)+'" y="20" font-size="12" fill="#7A7469" text-anchor="middle" font-family="'Cardone', sans-serif">'+d.toLocaleString('en',{month:'short'})+" '"+String(d.getFullYear()).slice(2)+'</text>';}d.setMonth(d.getMonth()+1);}
+  while(d<=t1){var x=px(d);if(x>=L){gr+='<line x1="'+x.toFixed(0)+'" y1="'+hH+'" x2="'+x.toFixed(0)+'" y2="'+H+'" stroke="#A1A3AC" stroke-width="1"/>';mo+='<text x="'+x.toFixed(0)+'" y="20" font-size="12" fill="#7A7469" text-anchor="middle" font-family="\'Cardone\', sans-serif">'+d.toLocaleString('en',{month:'short'})+" '"+String(d.getFullYear()).slice(2)+'</text>';}d.setMonth(d.getMonth()+1);}
   wd.forEach(function(it,i){
     var y=hH+i*rH,due=new Date(it.due),x2=px(due),x1=Math.max(L,x2-B*0.18);
     var ov=due<now,dn=/done|complet|closed|finish/i.test(it.status||'');
     if(i%2===0)ro+='<rect x="0" y="'+y+'" width="'+W+'" height="'+rH+'" fill="#EFEFEF"/>';
     var lbl=(it.name||'').slice(0,22)+(it.name&&it.name.length>22?'…':'');
-    ro+='<text x="'+(L-6)+'" y="'+(y+rH/2+4)+'" font-size="12" fill="#000000" text-anchor="end" font-family="'Cardone', sans-serif">'+esc(lbl)+'</text>';
+    ro+='<text x="'+(L-6)+'" y="'+(y+rH/2+4)+'" font-size="12" fill="#000000" text-anchor="end" font-family="\'Cardone\', sans-serif">'+esc(lbl)+'</text>';
     var bc=dn?'#2D8944':'#82957B';
     ro+='<rect x="'+x1.toFixed(0)+'" y="'+(y+5)+'" width="'+Math.max(x2-x1,4).toFixed(0)+'" height="'+(rH-10)+'" rx="3" fill="'+bc+'" opacity="'+(dn?'0.4':'0.85')+'"/>';
-    ro+=dn?'<text x="'+(x2+10).toFixed(0)+'" y="'+(y+rH/2+4)+'" font-size="10" fill="'+bc+'" font-family="'Cardone', sans-serif">✓</text>':'<circle cx="'+x2.toFixed(0)+'" cy="'+(y+rH/2)+'" r="4" fill="'+bc+'"/>';
+    ro+=dn?'<text x="'+(x2+10).toFixed(0)+'" y="'+(y+rH/2+4)+'" font-size="10" fill="'+bc+'" font-family="\'Cardone\', sans-serif">✓</text>':'<circle cx="'+x2.toFixed(0)+'" cy="'+(y+rH/2)+'" r="4" fill="'+bc+'"/>';
   });
-  var tl='<line x1="'+tx.toFixed(0)+'" y1="4" x2="'+tx.toFixed(0)+'" y2="'+H+'" stroke="#C64440" stroke-width="1.5" stroke-dasharray="3,3"/>'+(tx>=L&&tx<=W?'<text x="'+tx.toFixed(0)+'" y="32" font-size="9" fill="#C64440" text-anchor="middle" font-family="'Cardone', sans-serif">Today</text>':'');
+  var tl='<line x1="'+tx.toFixed(0)+'" y1="4" x2="'+tx.toFixed(0)+'" y2="'+H+'" stroke="#C64440" stroke-width="1.5" stroke-dasharray="3,3"/>'+(tx>=L&&tx<=W?'<text x="'+tx.toFixed(0)+'" y="32" font-size="9" fill="#C64440" text-anchor="middle" font-family="\'Cardone\', sans-serif">Today</text>':'');
   return'<div class="gantt-section"><div class="gantt-header">📅 Timeline</div><svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" style="display:block">'+gr+mo+tl+ro+'</svg></div>';
 }
 
