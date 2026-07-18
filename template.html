@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YOUR_PROJECT_TITLE</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PGNpcmNsZSBjeD0iMTYiIGN5PSIxMCIgcj0iOCIgZmlsbD0iIzFhMWEyZSIvPjxlbGxpcHNlIGN4PSIxNiIgY3k9IjIyIiByeD0iOSIgcnk9IjExIiBmaWxsPSIjMWExYTJlIi8+PGVsbGlwc2UgY3g9IjE2IiBjeT0iMjQiIHJ4PSI1IiByeT0iNyIgZmlsbD0id2hpdGUiLz48Y2lyY2xlIGN4PSIxMyIgY3k9IjkiIHI9IjEuNSIgZmlsbD0id2hpdGUiLz48Y2lyY2xlIGN4PSIxMyIgY3k9IjkiIHI9Ii43IiBmaWxsPSIjMWExYTJlIi8+PGNpcmNsZSBjeD0iMTkiIGN5PSI5IiByPSIxLjUiIGZpbGw9IndoaXRlIi8+PGNpcmNsZSBjeD0iMTkiIGN5PSI5IiByPSIuNyIgZmlsbD0iIzFhMWEyZSIvPjxwb2x5Z29uIHBvaW50cz0iMTQsMTIgMTgsMTIgMTYsMTUiIGZpbGw9IiNmZjhjMDAiLz48ZWxsaXBzZSBjeD0iMTEiIGN5PSIzMSIgcng9IjMiIHJ5PSIxIiBmaWxsPSIjZmY4YzAwIi8+PGVsbGlwc2UgY3g9IjIxIiBjeT0iMzEiIHJ4PSIzIiByeT0iMSIgZmlsbD0iI2ZmOGMwMCIvPjwvc3ZnPg==">
+  <style>
+    @font-face {
+      font-family: 'Cardone';
+      src: url('/YOUR_GITHUB_REPO/fonts/Cardone-Light.otf') format('opentype');
+      font-weight: 300;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Cardone';
+      src: url('/YOUR_GITHUB_REPO/fonts/Cardone-LightItalic.otf') format('opentype');
+      font-weight: 300;
+      font-style: italic;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Cardone', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-weight: 300;
+      background: #EDEBE1;
+      color: #000000;
+      min-height: 100vh;
+    }
+
+    /* -- Header -- */
+    .site-header {
+      background: #fff;
+      border-bottom: 1px solid #A1A3AC;
+      padding: 24px 40px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .site-header .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 1;
+    }
+    .site-header .adelie-logo {
+      font-family: 'Cardone', sans-serif;
+      font-weight: 300;
+      font-size: 22px;
+      letter-spacing: 0.04em;
+      color: #000000;
+      white-space: nowrap;
+    }
+    .site-header img.client-logo {
+      height: 36px;
+      width: auto;
+    }
+    .site-header .divider {
+      width: 1px;
+      height: 32px;
+      background: #A1A3AC;
+    }
+    .site-header .header-text h1 {
+      font-size: 20px;
+      font-weight: 300;
+      color: #000000;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+    }
+    .site-header .header-text .subtitle {
+      font-size: 13px;
+      color: #7A7469;
+      font-style: italic;
+      margin-top: 2px;
+    }
+    .site-header .penguin-wrap {
+      display: flex;
+      align-items: flex-end;
+      opacity: 0.55;
+    }
+
+    /* -- Overall progress -- */
+    .overall-card {
+      background: #fff;
+      border: 1px solid #A1A3AC;
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin: 28px 40px 0;
+    }
+    .overall-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+    .overall-label span:first-child {
+      font-size: 11px;
+      font-weight: 300;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #7A7469;
+    }
+    .overall-label .pct {
+      font-size: 22px;
+      font-weight: 300;
+      color: #2D8944;
+    }
+    .bar-track {
+      background: #A1A3AC;
+      border-radius: 99px;
+      height: 8px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, #2D8944, #1579C4);
+      transition: width 0.6s ease;
+    }
+    .stats-row {
+      display: flex;
+      gap: 32px;
+      margin-top: 16px;
+    }
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .stat .val {
+      font-size: 18px;
+      font-weight: 300;
+      color: #000000;
+    }
+    .stat .lbl {
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #7A7469;
+    }
+
+    /* -- Main content -- */
+    .content {
+      padding: 24px 40px 48px;
+    }
+
+    /* -- Phase / Group cards -- */
+    .group-card {
+      background: #fff;
+      border: 1px solid #A1A3AC;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .group-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      border-bottom: 1px solid #A1A3AC;
+      cursor: pointer;
+      user-select: none;
+    }
+    .group-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .group-title {
+      font-size: 14px;
+      font-weight: 300;
+      letter-spacing: 0.03em;
+      flex: 1;
+    }
+    .group-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .group-progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .group-bar {
+      width: 80px;
+      height: 5px;
+      background: #A1A3AC;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .group-bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: #2D8944;
+    }
+    .group-pct {
+      font-size: 12px;
+      font-weight: 300;
+      color: #7A7469;
+      min-width: 30px;
+      text-align: right;
+    }
+    .chevron {
+      font-size: 11px;
+      color: #7A7469;
+      transition: transform 0.2s;
+    }
+    .group-card.collapsed .chevron { transform: rotate(-90deg); }
+    .group-card.collapsed .group-body { display: none; }
+
+    /* -- Items table -- */
+    .group-body { padding: 0; }
+
+    .col-headers {
+      display: grid;
+      grid-template-columns: 1fr 140px 130px 160px 180px;
+      padding: 8px 20px;
+      background: #EFEFEF;
+      border-bottom: 1px solid #A1A3AC;
+      font-size: 10px;
+      font-weight: 300;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #7A7469;
+    }
+
+    .item-row {
+      display: grid;
+      grid-template-columns: 1fr 140px 130px 160px 180px;
+      padding: 12px 20px;
+      border-bottom: 1px solid #EFEFEF;
+      align-items: start;
+      transition: background 0.15s;
+    }
+    .item-row:last-child { border-bottom: none; }
+    .item-row:hover { background: #EFEFEF; }
+
+    .item-name-wrap {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .expand-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 10px;
+      color: #7A7469;
+      padding: 2px 4px;
+      line-height: 1.6;
+      flex-shrink: 0;
+      transition: color 0.15s;
+    }
+    .expand-btn:hover { color: #000000; }
+    .expand-btn.open { transform: rotate(90deg); }
+
+    .item-name {
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.5;
+    }
+    .no-subitems-spacer { width: 20px; flex-shrink: 0; }
+
+    .status-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.3px;
+      color: #fff;
+      max-width: 130px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .due-date {
+      font-size: 13px;
+      color: #000000;
+    }
+    .due-date.overdue { color: #C64440; }
+    .due-date.soon { color: #C64440; }
+    .due-date.empty { color: #A1A3AC; }
+
+    .assignee {
+      font-size: 13px;
+      color: #000000;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .avatar {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #2D8944;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 300;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* -- Subitems -- */
+    .subitems-container {
+      display: none;
+      background: #EFEFEF;
+      border-top: 1px solid #EFEFEF;
+    }
+    .subitems-container.open { display: block; }
+
+    .subitem-row {
+      display: grid;
+      grid-template-columns: 1fr 140px 130px 160px 180px;
+      padding: 9px 20px 9px 52px;
+      border-bottom: 1px solid #EFEFEF;
+      align-items: center;
+      font-size: 13px;
+    }
+    .subitem-row:last-child { border-bottom: none; }
+    .subitem-name { color: #7A7469; font-weight: 300; }
+
+    .link-cell {
+      font-size: 13px;
+      color: #000000;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .link-cell a {
+      color: #1579C4;
+      text-decoration: none;
+    }
+    .link-cell a:hover { text-decoration: underline; }
+
+    .gantt-section { margin: 0 20px 20px; overflow-x: auto; border: 1px solid #A1A3AC; border-radius: 8px; overflow: hidden; background: #fff; }
+    .gantt-header { padding: 10px 16px 8px; font-size: 13px; font-weight: 600; color: #000000; border-bottom: 1px solid #A1A3AC; background: #EFEFEF; letter-spacing: .3px; }
+
+    /* -- Footer -- */
+    .footer {
+      text-align: center;
+      padding: 20px 16px 28px;
+      font-size: 12px;
+      color: #A1A3AC;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .footer a { color: #7A7469; text-decoration: none; }
+
+    /* -- Loading / Error -- */
+    .state-box {
+      text-align: center;
+      padding: 80px 40px;
+      color: #7A7469;
+    }
+    .state-box .spinner {
+      width: 32px;
+      height: 32px;
+      border: 2px solid #A1A3AC;
+      border-top-color: #2D8944;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error-msg { color: #C64440; }
+
+    /* -- Refresh strip -- */
+    .refresh-strip {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      padding: 0 40px 10px;
+      font-size: 11px;
+      color: #A1A3AC;
+      letter-spacing: 0.3px;
+    }
+    .refresh-btn {
+      background: none;
+      border: 1px solid #A1A3AC;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-family: 'Cardone', sans-serif;
+      font-weight: 300;
+      cursor: pointer;
+      color: #7A7469;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .refresh-btn:hover { border-color: #2D8944; color: #2D8944; }
+
+    @media (max-width: 680px) {
+      .site-header, .overall-card, .content, .refresh-strip { padding-left: 16px; padding-right: 16px; }
+      .overall-card { margin-left: 16px; margin-right: 16px; }
+      .col-headers, .item-row, .subitem-row {
+        grid-template-columns: 1fr 100px;
+      }
+      .col-headers > *:nth-child(3),
+      .col-headers > *:nth-child(4),
+      .item-row > *:nth-child(3),
+      .item-row > *:nth-child(4),
+      .subitem-row > *:nth-child(3),
+      .subitem-row > *:nth-child(4) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="app">
+  <div class="state-box">
+    <div class="spinner"></div>
+    <p>Loading project data&hellip;</p>
+  </div>
+</div>
+
+<script>
+// ---------------------------------------------
+//  CONFIG
+// ---------------------------------------------
+const API_TOKEN = 'YOUR_MONDAY_API_TOKEN'; // ← Replace with your Monday.com API token;
+const BOARD_ID  = 'YOUR_MONDAY_BOARD_ID';  // ← Replace with your Monday.com board ID;
+const REFRESH_MS = 5 * 60 * 1000;
+const DONE_LABELS = ['done', 'complete', 'completed', 'finished', 'closed', 'delivered'];
+
+// ---------------------------------------------
+//  PENGUIN SVG (adelie, sliding)
+// ---------------------------------------------
+// Penguin image will be embedded here once the file is attached
+const PENGUIN_IMG = ''; // placeholder - set to base64 data URI when image is provided
+
+// ---------------------------------------------
+//  RADAR HEALTHCARE LOGO
+// ---------------------------------------------
+const CLIENT_LOGO_URL = 'YOUR_CLIENT_LOGO_URL'; // ← Replace with your client's logo URL;
+
+// ---------------------------------------------
+//  API
+// ---------------------------------------------
+const GQL_QUERY = `
+query GetBoard($ids: [ID!]!) {
+  boards(ids: $ids) {
+    name
+    description
+    columns { id title type settings_str }
+    groups   { id title color }
+    items_page(limit: 200) {
+      items {
+        id name
+        group { id title }
+        column_values {
+          id text value
+          column { id title type }
+        }
+        subitems {
+          id name
+          column_values {
+            id text value
+            column { id title type }
+          }
+        }
+      }
+    }
+  }
+}`;
+
+async function fetchBoard() {
+  const res = await fetch('https://api.monday.com/v2', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': API_TOKEN,
+      'API-Version': '2024-01'
+    },
+    body: JSON.stringify({ query: GQL_QUERY, variables: { ids: [BOARD_ID] } })
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const json = await res.json();
+  if (json.errors) throw new Error(json.errors.map(e => e.message).join(', '));
+  return json.data.boards[0];
+}
+
+// ---------------------------------------------
+//  HELPERS
+// ---------------------------------------------
+function parseSettings(col) {
+  try { return JSON.parse(col.settings_str); } catch { return {}; }
+}
+
+function buildStatusMeta(columns) {
+  const map = {};
+  columns.forEach(col => {
+    if (col.type !== 'color' && col.type !== 'status') return;
+    const s = parseSettings(col);
+    map[col.id] = { labels: s.labels || {}, colors: s.labels_colors || {} };
+  });
+  return map;
+}
+
+function getStatusColor(statusMeta, colId, value) {
+  try {
+    const idx = JSON.parse(value).index;
+    return statusMeta[colId]?.colors[idx]?.color || '#A1A3AC';
+  } catch { return '#A1A3AC'; }
+}
+
+function isDone(text) {
+  return DONE_LABELS.includes((text || '').toLowerCase().trim());
+}
+
+function buildGantt(items, gc) {
+  var wd=items.filter(function(i){return i.due;});
+  if(!wd.length)return'';
+  var now=new Date();now.setHours(0,0,0,0);
+  var ms=wd.map(function(i){return+new Date(i.due);});
+  var t0=new Date(now.getFullYear(),now.getMonth()-1,1);
+  var t1=new Date(t0.getFullYear(),t0.getMonth()+6,1);
+  var W=1050,L=160,B=W-L,rH=26,hH=36,H=hH+wd.length*rH+4,sp=t1-t0;
+  function px(d){return L+(+new Date(d)-t0)/sp*B;}
+  var tx=px(now),gr='',mo='',ro='',d=new Date(t0);d.setDate(1);
+  while(d<=t1){var x=px(d);if(x>=L){gr+='<line x1="'+x.toFixed(0)+'" y1="'+hH+'" x2="'+x.toFixed(0)+'" y2="'+H+'" stroke="#A1A3AC" stroke-width="1"/>';mo+='<text x="'+x.toFixed(0)+'" y="20" font-size="12" fill="#7A7469" text-anchor="middle" font-family="\'Cardone\', sans-serif">'+d.toLocaleString('en',{month:'short'})+" '"+String(d.getFullYear()).slice(2)+'</text>';}d.setMonth(d.getMonth()+1);}
+  wd.forEach(function(it,i){
+    var y=hH+i*rH,due=new Date(it.due),x2=px(due),x1=Math.max(L,x2-B*0.18);
+    var ov=due<now,dn=/done|complet|closed|finish/i.test(it.status||'');
+    if(i%2===0)ro+='<rect x="0" y="'+y+'" width="'+W+'" height="'+rH+'" fill="#EFEFEF"/>';
+    var lbl=(it.name||'').slice(0,22)+(it.name&&it.name.length>22?'…':'');
+    ro+='<text x="'+(L-6)+'" y="'+(y+rH/2+4)+'" font-size="12" fill="#000000" text-anchor="end" font-family="\'Cardone\', sans-serif">'+esc(lbl)+'</text>';
+    var bc=dn?'#2D8944':'#82957B';
+    ro+='<rect x="'+x1.toFixed(0)+'" y="'+(y+5)+'" width="'+Math.max(x2-x1,4).toFixed(0)+'" height="'+(rH-10)+'" rx="3" fill="'+bc+'" opacity="'+(dn?'0.4':'0.85')+'"/>';
+    ro+=dn?'<text x="'+(x2+10).toFixed(0)+'" y="'+(y+rH/2+4)+'" font-size="10" fill="'+bc+'" font-family="\'Cardone\', sans-serif">✓</text>':'<circle cx="'+x2.toFixed(0)+'" cy="'+(y+rH/2)+'" r="4" fill="'+bc+'"/>';
+  });
+  var tl='<line x1="'+tx.toFixed(0)+'" y1="4" x2="'+tx.toFixed(0)+'" y2="'+H+'" stroke="#C64440" stroke-width="1.5" stroke-dasharray="3,3"/>'+(tx>=L&&tx<=W?'<text x="'+tx.toFixed(0)+'" y="32" font-size="9" fill="#C64440" text-anchor="middle" font-family="\'Cardone\', sans-serif">Today</text>':'');
+  return'<div class="gantt-section"><div class="gantt-header">📅 Timeline</div><svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" style="display:block">'+gr+mo+tl+ro+'</svg></div>';
+}
+
+function formatDate(text) {
+  if (!text) return null;
+  const d = new Date(text);
+  if (isNaN(d)) return text;
+  const now = new Date();
+  const diff = (d - now) / 86400000;
+  return { str: d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }), diff };
+}
+
+function initials(name) {
+  return (name || '?').split(' ').slice(0,2).map(p=>p[0]).join('').toUpperCase();
+}
+
+function hslFromStr(str) {
+  let h = 0;
+  for (let i = 0; i < str.length; i++) h = str.charCodeAt(i) + ((h<<5)-h);
+  return `hsl(${Math.abs(h)%360},45%,50%)`;
+}
+
+// ---------------------------------------------
+//  RENDER
+// ---------------------------------------------
+function render(board) {
+  const statusMeta = buildStatusMeta(board.columns);
+  const groupOrder = board.groups.map(g => g.id);
+  const groupMap   = Object.fromEntries(board.groups.map(g => [g.id, g]));
+
+  const byGroup = {};
+  board.items_page.items.forEach(item => {
+    const gid = item.group.id;
+    if (!byGroup[gid]) byGroup[gid] = [];
+    byGroup[gid].push(item);
+  });
+
+  let totalItems = 0, doneItems = 0;
+  board.items_page.items.forEach(item => {
+    totalItems++;
+    const sv = item.column_values.find(cv => cv.column.type === 'color' || cv.column.type === 'status');
+    if (sv && isDone(sv.text)) doneItems++;
+  });
+  const overallPct = totalItems ? Math.round((doneItems / totalItems) * 100) : 0;
+  const now = new Date();
+
+  let html = `
+    <div class="site-banner"><img src="/YOUR_GITHUB_REPO/images/banner.jpg" alt="Adelie — Navigating Complexity. Empowering Sustainable Futures." style="width:100%;display:block;max-height:200px;object-fit:cover;object-position:center 30%;"></div>
+  <div class="site-header">
+      <div class="logo-wrap">
+        <span class="adelie-logo">adelie</span>
+        <div class="divider"></div>
+        <img class="client-logo" src="${CLIENT_LOGO_URL}" alt="YOUR_PROJECT_NAME" onerror="this.style.display='none'"/>
+        <div class="divider"></div>
+        <div class="header-text">
+          <h1>${esc(board.name)}</h1>
+          ${board.description ? `<p class="subtitle">${esc(board.description)}</p>` : '<p class="subtitle">ISO14001 &amp; Carbon Reduction Plan (CRP)</p>'}
+        </div>
+      </div>
+      <div class="penguin-wrap" title="adelie.eco">${PENGUIN_IMG ? `<img src="${PENGUIN_IMG}" alt="adelie" style="height:40px;width:auto;opacity:0.6">` : ''}</div>
+    </div>
+
+    <div class="overall-card">
+      <div class="overall-label">
+        <span>Overall Progress</span>
+        <span class="pct">${overallPct}%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${overallPct}%"></div>
+      </div>
+      <div class="stats-row">
+        <div class="stat"><span class="val">${doneItems}</span><span class="lbl">Completed</span></div>
+        <div class="stat"><span class="val">${totalItems - doneItems}</span><span class="lbl">Remaining</span></div>
+        <div class="stat"><span class="val">${totalItems}</span><span class="lbl">Total tasks</span></div>
+      </div>
+    </div>
+
+    <div class="refresh-strip">
+      <span id="last-updated">Updated ${now.toLocaleTimeString()}</span>
+      <button class="refresh-btn" onclick="loadAndRender()">» Refresh</button>
+    </div>
+
+    <div class="content">
+  `;
+
+  groupOrder.forEach(gid => {
+    const group = groupMap[gid];
+    const items = byGroup[gid] || [];
+    if (!items.length) return;
+
+    const color = group.color || '#A1A3AC';
+    const gDone = items.filter(item => {
+      const sv = item.column_values.find(cv => cv.column.type === 'color' || cv.column.type === 'status');
+      return sv && isDone(sv.text);
+    }).length;
+    const gPct = Math.round((gDone / items.length) * 100);
+
+    html += `
+      <div class="group-card" id="group-${gid}">
+        <div class="group-header" onclick="toggleGroup('${gid}')">
+          <div class="group-dot" style="background:${color}"></div>
+          <span class="group-title">${esc(group.title)}</span>
+          <div class="group-meta">
+            <div class="group-progress-wrap">
+              <div class="group-bar">
+                <div class="group-bar-fill" style="width:${gPct}%; background:${color}"></div>
+              </div>
+              <span class="group-pct">${gPct}%</span>
+            </div>
+            <span class="chevron">-¾</span>
+          </div>
+        </div>
+        <div class="group-body">
+          <div class="col-headers">
+            <div>Task</div><div>Status</div><div>Due Date</div><div>Assignee</div><div>Link</div>
+          </div>`;
+
+    const ganttData = [];
+    items.forEach(item => {
+      const statusCV = item.column_values.find(cv => cv.column.type === 'color' || cv.column.type === 'status');
+      const dateCV   = item.column_values.find(cv => cv.column.type === 'date');
+      const personCV = item.column_values.find(cv => cv.column.type === 'multiple-person' || cv.column.type === 'people' || cv.column.type === 'person');
+      const linkCV   = item.column_values.find(cv => cv.column.type === 'link');
+
+      const statusText  = statusCV?.text || '';
+      const statusColor = statusCV ? getStatusColor(statusMeta, statusCV.column.id, statusCV.value) : '#A1A3AC';
+      let linkText = '', linkUrl = '';
+      if (linkCV?.value) { try { const lv = JSON.parse(linkCV.value); linkText = lv.text || ''; linkUrl = lv.url || ''; } catch {} }
+
+      const dateInfo = dateCV ? formatDate(dateCV.text) : null;
+      ganttData.push({name: item.name, due: dateCV ? dateCV.text : null, color: statusColor, status: statusText});
+      let dateClass = 'empty', dateStr = '-';
+      if (dateInfo) {
+        dateStr = dateInfo.str;
+        dateClass = dateInfo.diff < 0 ? 'overdue' : dateInfo.diff < 3 ? 'soon' : '';
+      }
+
+      let assigneeHtml = '<span style="color:#A1A3AC">-</span>';
+      if (personCV?.text) {
+        const names = personCV.text.split(',').map(n => n.trim()).filter(Boolean);
+        if (names.length) {
+          const avatars = names.slice(0,3).map(name =>
+            `<span class="avatar" style="background:${hslFromStr(name)}" title="${esc(name)}">${initials(name)}</span>`
+          ).join('');
+          assigneeHtml = avatars + `<span style="font-size:13px;margin-left:5px">${esc(names.join(', '))}</span>`;
+        }
+      }
+
+      const hasSubs = item.subitems?.length > 0;
+
+      html += `
+        <div class="item-row">
+          <div class="item-name-wrap">
+            ${hasSubs
+              ? `<button class="expand-btn" id="btn-${item.id}" onclick="toggleSubs('${item.id}')">▾</button>`
+              : `<span class="no-subitems-spacer"></span>`
+            }
+            <span class="item-name">${esc(item.name)}</span>
+          </div>
+          <div>
+            ${statusText
+              ? `<span class="status-badge" style="background:${statusColor}">${esc(statusText)}</span>`
+              : '<span style="color:#A1A3AC">-</span>'
+            }
+          </div>
+          <div class="due-date ${dateClass}">${dateStr}</div>
+          <div class="assignee">${assigneeHtml}</div>
+          <div class="link-cell">${linkText && linkUrl ? `<a href="${esc(linkUrl)}" target="_blank" rel="noopener">${esc(linkText)}</a>` : linkText ? esc(linkText) : '<span style="color:#A1A3AC">-</span>'}</div>
+        </div>`;
+
+      if (hasSubs) {
+        html += `<div class="subitems-container" id="subs-${item.id}">`;
+        item.subitems.forEach(sub => {
+          const ssv = sub.column_values.find(cv => cv.column.type === 'color' || cv.column.type === 'status');
+          const sdv = sub.column_values.find(cv => cv.column.type === 'date');
+          const spv = sub.column_values.find(cv => cv.column.type === 'multiple-person' || cv.column.type === 'people' || cv.column.type === 'person');
+          const slv = sub.column_values.find(cv => cv.column.type === 'link');
+
+          const sStatusText  = ssv?.text || '';
+          const sStatusColor = ssv ? getStatusColor(statusMeta, ssv.column.id, ssv.value) : '#A1A3AC';
+          let sLinkText = '', sLinkUrl = '';
+          if (slv?.value) { try { const lv = JSON.parse(slv.value); sLinkText = lv.text || ''; sLinkUrl = lv.url || ''; } catch {} }
+
+          const sdi = sdv ? formatDate(sdv.text) : null;
+          let sDC = 'empty', sDS = '-';
+          if (sdi) { sDS = sdi.str; sDC = sdi.diff < 0 ? 'overdue' : sdi.diff < 3 ? 'soon' : ''; }
+
+          let sAH = '<span style="color:#A1A3AC">-</span>';
+          if (spv?.text) {
+            const snames = spv.text.split(',').map(n => n.trim()).filter(Boolean);
+            if (snames.length) {
+              sAH = snames.slice(0,3).map(name =>
+                `<span class="avatar" style="background:${hslFromStr(name)}" title="${esc(name)}">${initials(name)}</span>`
+              ).join('') + `<span style="font-size:13px;margin-left:5px">${esc(snames.join(', '))}</span>`;
+            }
+          }
+
+          html += `
+            <div class="subitem-row">
+              <div class="subitem-name"> ${esc(sub.name)}</div>
+              <div>${sStatusText ? `<span class="status-badge" style="background:${sStatusColor}">${esc(sStatusText)}</span>` : '<span style="color:#A1A3AC">-</span>'}</div>
+              <div class="due-date ${sDC}">${sDS}</div>
+              <div class="assignee">${sAH}</div>
+              <div class="link-cell">${sLinkText && sLinkUrl ? `<a href="${esc(sLinkUrl)}" target="_blank" rel="noopener">${esc(sLinkText)}</a>` : sLinkText ? esc(sLinkText) : '<span style="color:#A1A3AC">-</span>'}</div>
+            </div>`;
+        });
+        html += `</div>`;
+      }
+    });
+    if (ganttData.some(function(i){return i.due;})) html += buildGantt(ganttData, color);
+
+    html += `</div></div>`;
+  });
+
+  html += `</div>
+    <div class="footer">
+      <span>Live data from monday.com · refreshes every 5 min</span>
+    </div>`;
+
+  document.getElementById('app').innerHTML = html;
+}
+
+function esc(str) {
+  return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function toggleGroup(gid) {
+  document.getElementById('group-' + gid).classList.toggle('collapsed');
+}
+
+function toggleSubs(itemId) {
+  const c = document.getElementById('subs-' + itemId);
+  const b = document.getElementById('btn-' + itemId);
+  if (!c) return;
+  b.classList.toggle('open', c.classList.toggle('open'));
+}
+
+async function loadAndRender() {
+  try {
+    const board = await fetchBoard();
+    render(board);
+  } catch (err) {
+    document.getElementById('app').innerHTML = `
+      <div class="site-header">
+        <div class="logo-wrap">
+          <span class="adelie-logo">adelie</span>
+          <div class="divider"></div>
+          <img class="client-logo" src="${CLIENT_LOGO_URL}" alt="YOUR_PROJECT_NAME" onerror="this.style.display='none'"/>
+        </div>
+        <div class="penguin-wrap">${PENGUIN_IMG ? `<img src="${PENGUIN_IMG}" alt="adelie" style="height:40px;width:auto;opacity:0.6">` : ''}</div>
+      </div>
+      <div class="state-box">
+        <p class="error-msg">Could not load project data.</p>
+        <p style="margin-top:8px;font-size:13px">${err.message}</p>
+        <button class="refresh-btn" style="margin-top:16px" onclick="loadAndRender()">Try again</button>
+      </div>`;
+  }
+}
+
+loadAndRender();
+setInterval(loadAndRender, REFRESH_MS);
+</script>
+</body>
+</html>
